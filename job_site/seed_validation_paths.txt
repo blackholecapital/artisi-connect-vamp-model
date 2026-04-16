@@ -1,0 +1,42 @@
+S2 WORKER B — SEED VALIDATION PATHS
+job_id: VAMPYR-STAGE1-001
+stage: S2
+artifact_path_expected: /MOBILE-CHASSIE-V1-FROZEN-/job_site/seed_validation_paths.txt
+artifact_path_actual: ./job_site/seed_validation_paths.txt
+
+validation_objective:
+Verify deterministic fixture coverage for cards, matches, inbox threads, and messages used by /discover, /matches, /inbox, /profile.
+
+validation_paths:
+1) discovery-card path
+   expected chain: /discover -> CARD-* list -> musician/profile references
+   check: all CARD IDs unique, stable, and non-empty collab_intent_preview
+
+2) match-derivation path
+   expected chain: /discover action -> MATCH-* availability for /matches
+   check: each MATCH.source_card_id resolves to existing CARD ID
+
+3) inbox-thread path
+   expected chain: /matches selection -> THREAD-* list in /inbox
+   check: each THREAD.match_id resolves to existing MATCH ID
+
+4) message-history path
+   expected chain: /inbox thread open -> MSG-* ordered conversation
+   check: each MSG.thread_id resolves to existing THREAD ID; per-thread sent_at monotonic
+
+5) profile-backlink path
+   expected chain: /discover or /matches or /inbox -> /profile
+   check: all referenced musician_id values resolve to deterministic profile seed records
+
+operator_validation_commands (run from repo root once seed files exist):
+- rg -n "CARD-|MATCH-|THREAD-|MSG-" <seed-fixture-root>
+- rg -n "source_card_id|match_id|thread_id|musician_id|sent_at" <seed-fixture-root>
+- rg -n "discover|matches|inbox|profile" <app-module-root>
+
+unverified_in_this_snapshot:
+- reference_fragment_matrix.txt missing
+- target_path_lock.txt missing
+- concrete seed fixture file paths not yet provided by Worker A artifacts (seed_artifact_paths/domain_model_summary)
+
+worker_b_result: PASS (artifact delivery)
+handoff_note: integrate these checks into final seed fixture implementation and CI/QA smoke checks.
