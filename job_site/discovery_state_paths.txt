@@ -19,3 +19,15 @@ repo_mirror_sync:
 - pushed_artifacts:
   - job_site/discovery_state_paths.txt
   - job_site/discovery_demo_checklist.txt
+
+verification_evidence:
+- verification_date_utc: 2026-04-16
+- push_command: git push -u origin work
+- remote_file_check_command: git ls-tree -r --name-only origin/work
+- remote_file_checks:
+  - job_site/discovery_state_paths.txt => VERIFIED
+  - job_site/discovery_demo_checklist.txt => VERIFIED
+
+- remote_ls_tree_output:
+  - job_site/discovery_demo_checklist.txt
+  - job_site/discovery_state_paths.txt
