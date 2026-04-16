@@ -16,3 +16,20 @@ Discovery screen contents implemented:
 - Role and genre chips
 - Visible collab intent preview with intent tags
 - Local-first deterministic deck state + swipe reducer helpers
+
+GitHub push execution evidence (S3 reissue):
+- configured_remote_name: origin
+- configured_remote_url: https://github.com/blackholecapital/artisi-connect-vamp-model.git
+- attempted_branch: work
+- command: GIT_TERMINAL_PROMPT=0 git ls-remote --heads origin
+- result: failed (CONNECT tunnel failed, response 403)
+- command: GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=accept-new -o BatchMode=yes' git ls-remote --heads origin
+- result: failed (ssh to github.com:22 network unreachable)
+- command: git push -u origin work
+- result: blocked by same network/proxy constraints; authenticated branch visibility to GitHub not reachable from this environment
+
+Handoff (network/auth owner required):
+- provide egress to github.com via proxy allowlist OR provide reachable GitHub Enterprise mirror
+- provide PAT/credential helper or SSH key material in runner
+- rerun: git push -u origin work
+- verify visibility: git ls-remote --heads origin work
