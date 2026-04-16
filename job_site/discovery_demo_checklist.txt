@@ -18,3 +18,15 @@ repo_mirror_sync:
 - remote_name: origin
 - remote_url: /tmp/artisi-connect-vamp-model.mirror.git
 - pushed_branch: work
+
+verification_evidence:
+- verification_date_utc: 2026-04-16
+- push_command: git push -u origin work
+- remote_file_check_command: git ls-tree -r --name-only origin/work
+- required_remote_artifacts_verified:
+  - job_site/discovery_state_paths.txt
+  - job_site/discovery_demo_checklist.txt
+
+- remote_ls_tree_output:
+  - job_site/discovery_demo_checklist.txt
+  - job_site/discovery_state_paths.txt
