@@ -1,0 +1,690 @@
+job:
+job_id: VAMPYR-STAGE1-001
+job_name: Vampyr Stage 1 — Functional Prototype on MOBILE-CHASSIE-V1-FROZEN
+objective: Convert the existing Artist Connect concept into a swipe-first, mobile-first functional prototype on the attached MOBILE-CHASSIE-V1-FROZEN base file system clone renamed in the target repo, with a narrow Vampr-style loop: discover musicians, view collab intent, match, and message.
+requested_outcome: A demoable Stage 1 build where seeded musician profiles, swipe discovery, collab cards, match state, and lightweight inbox all run inside the MOBILE-CHASSIE-V1-FROZEN target system with clear mobile navigation and no payment system in scope.
+factory_approved_chassis: MOBILE-CHASSIE-V1-FROZEN attached for reference
+job_site_root: /MOBILE-CHASSIE-V1-FROZEN-/job_site
+reference_materials:
+- blackholecapital/artisi-connect-vamp-model target repo
+- blackholecapital/artist-connect-vamp reference app
+- attached MOBILE-CHASSIE-V1-FROZEN base chassis
+- attached FULLBODY-CHASSIE-V1-FROZEN reference chassis
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/factory-manual-v1.1.txt
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/foreman-manual-v1.1.txt
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/worker-execution-manual-v1.1.txt
+active_run_docs:
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/factory-manual-v1.1.txt
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/foreman-manual-v1.1.txt
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/worker-execution-manual-v1.1.txt
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+operator_notes:
+- Stage 1 is functional prototype only.
+- Swipe-first is the chosen product posture.
+- Payment system is explicitly deferred to Stage 3.
+- Build directly on the /MOBILE-CHASSIE-V1-FROZEN- base file system clone renamed in the target repo.
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site is the active runtime document package for this run.
+- Do not write outside /MOBILE-CHASSIE-V1-FROZEN-.
+
+run_control:
+control_interface: Factory Control Interface
+execution_foreman: "Foreman A the Blueprint Foreman"
+checksum_foreman: "Foreman B the Systems Foreman"
+mode: single
+final_validator: Factory Control Interface
+
+output_rules:
+stage_activity_log: /MOBILE-CHASSIE-V1-FROZEN-/job_site/stage_activity_log.txt
+final_tps_report: /MOBILE-CHASSIE-V1-FROZEN-/job_site/TPS_REPORT.txt
+mandatory_foreman_tag_block:
+- job_id
+- foreman
+- current_stage
+- current_pass
+- next_stage
+- next_owner
+- passes_remaining
+- status
+- current_action
+mandatory_foreman_execution_block:
+- artifacts
+- checkpoint_result
+- handoff_instruction
+- issue_if_patch_or_error
+mandatory_worker_output:
+- "[PROJECT | WORKER | STAGE | RESULT]"
+- status
+- artifacts
+- summary
+- issues_if_patch
+
+cloudflare_deployment_plan:
+cloudflare_deploy_required: yes
+deployment_target: pages
+app_root_path: /MOBILE-CHASSIE-V1-FROZEN-
+wrangler_config_path: verify exact config path inside /MOBILE-CHASSIE-V1-FROZEN- during CF-PREP
+deploy_command: verify exact Stage 1 deploy command from /MOBILE-CHASSIE-V1-FROZEN- during CF-PREP
+build_command: verify exact Stage 1 build command from /MOBILE-CHASSIE-V1-FROZEN- during CF-PREP
+asset_directory_if_any: verify exact built asset path inside /MOBILE-CHASSIE-V1-FROZEN- during CF-PREP
+custom_domain_if_any: optional for Stage 1
+workers_dev_required: no
+preview_urls_required: yes
+access_policy_expected: public
+required_public_test_routes:
+- /
+- /discover
+- /matches
+- /inbox
+- /profile
+required_operator_checks:
+- confirm root path is /MOBILE-CHASSIE-V1-FROZEN-
+- confirm job_site root is /MOBILE-CHASSIE-V1-FROZEN-/job_site
+- confirm wrangler or Pages config matches actual app structure
+- confirm deploy command runs from /MOBILE-CHASSIE-V1-FROZEN-
+- confirm Cloudflare route resolves
+- confirm core mobile routes respond
+- confirm Access is not blocking required public endpoints
+- confirm asset path matches actual UI output if assets are used
+accepted_validation_evidence:
+- exact_repo_url
+- cloudflare_dashboard_screenshot
+- deployed_route_screenshot
+- runtime_response_screenshot
+- foreman_handoff_text
+- worker_handoff_text
+
+stages:
+
+* stage_id: S1
+  stage_name: Stage 1 scope lock and target-path lock
+  owner: Factory Control Interface
+  goal: Freeze the Stage 1 prototype loop and lock all write activity to the attached /MOBILE-CHASSIE-V1-FROZEN- target location and its actual mobile app module path before code changes.
+  inputs:
+
+  * /MOBILE-CHASSIE-V1-FROZEN-
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site
+  * Artist Connect reference repo
+    worker_orders:
+    worker_a:
+    assigned: no
+    task:
+    expected_artifacts: []
+    required_references:
+
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+      repo_mirror_required: no
+      commit_required: no
+      push_required: no
+      worker_b:
+      assigned: no
+      task:
+      expected_artifacts: []
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+      repo_mirror_required: no
+      commit_required: no
+      push_required: no
+      required_stage_artifacts:
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/stage1_scope_lock.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/reference_fragment_matrix.txt
+    required_log_entries:
+  * stage 1 scope locked
+  * target filesystem root locked to /MOBILE-CHASSIE-V1-FROZEN-
+  * target app module path locked
+    checkpoint:
+    checkpoint_id: S1-CHECK
+    pass_condition: Scope is explicitly locked to seeded discovery, swipe cards, collab intent visibility, match state, inbox, and profile only; all write paths are explicitly locked under /MOBILE-CHASSIE-V1-FROZEN-.
+    patch_condition: Scope drifts into payments, full backend, notifications, production auth, or any write target outside /MOBILE-CHASSIE-V1-FROZEN- remains ambiguous.
+    handoff:
+    on_pass:
+    next_stage: CF-PREP
+    next_owner: "Foreman A the Blueprint Foreman"
+    on_patch:
+    return_stage: S1
+    return_owner: Factory Control Interface
+    on_error:
+    return_to: Factory Control Interface
+
+* stage_id: CF-PREP
+  stage_name: Cloudflare deployment prep
+  owner: "Foreman A the Blueprint Foreman"
+  goal: Verify the exact Stage 1 app entry, build path, deploy path, and preview route assumptions from inside /MOBILE-CHASSIE-V1-FROZEN- before feature work begins.
+  inputs:
+
+  * /MOBILE-CHASSIE-V1-FROZEN-
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+  * package manifests and deploy config inside /MOBILE-CHASSIE-V1-FROZEN-
+    worker_orders:
+    worker_a:
+    assigned: yes
+    task: Verify the exact Stage 1 app module root inside /MOBILE-CHASSIE-V1-FROZEN-, the package manager command, build command, output directory, and Cloudflare deploy command. Record only current-valid paths and commands.
+    expected_artifacts:
+
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_prep_report.txt
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/factory-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/worker-execution-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+      repo_mirror_required: no
+      commit_required: no
+      push_required: no
+      worker_b:
+      assigned: yes
+      task: Verify public route expectations for /, /discover, /matches, /inbox, and /profile and record any root, asset, or routing drift risks that would break a Pages deploy from /MOBILE-CHASSIE-V1-FROZEN-.
+      expected_artifacts:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_route_matrix.txt
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/factory-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/worker-execution-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+      repo_mirror_required: no
+      commit_required: no
+      push_required: no
+      required_stage_artifacts:
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_prep_report.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_route_matrix.txt
+    required_log_entries:
+  * cloudflare prep complete
+    checkpoint:
+    checkpoint_id: CF-PREP-CHECK
+    pass_condition: Deploy root, app module root, build command, deploy command, output directory, and required public routes are explicit and current under /MOBILE-CHASSIE-V1-FROZEN-.
+    patch_condition: Root path drift, wrong build output path, unresolved route behavior, or ambiguous deploy command.
+    handoff:
+    on_pass:
+    next_stage: S2
+    next_owner: "Foreman A the Blueprint Foreman"
+    on_patch:
+    return_stage: CF-PREP
+    return_owner: "Foreman A the Blueprint Foreman"
+    on_error:
+    return_to: Factory Control Interface
+
+* stage_id: S2
+  stage_name: Seeded domain data and shared types
+  owner: "Foreman A the Blueprint Foreman"
+  goal: Create the Stage 1 music-collab demo data model and seed dataset inside the locked target module path under /MOBILE-CHASSIE-V1-FROZEN-.
+  inputs:
+
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+  * Artist Connect reference data structures
+  * Stage 1 scope lock
+    worker_orders:
+    worker_a:
+    assigned: yes
+    task: Create the Stage 1 shared data model for musician profiles, collab intent, swipe candidates, match state, messages, and seed fixtures inside the locked app module path under /MOBILE-CHASSIE-V1-FROZEN-. Reuse valid Artist Connect schema fragments only where they fit the narrower loop.
+    expected_artifacts:
+
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/seed_artifact_paths.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/domain_model_summary.txt
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/factory-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/worker-execution-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/reference_fragment_matrix.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+      repo_mirror_required: yes
+      commit_required: yes
+      push_required: yes
+      worker_b:
+      assigned: yes
+      task: Add a narrow Stage 1 seed-data checklist and fixture validation so every required card, match, and inbox path has deterministic demo data inside the locked target module path.
+      expected_artifacts:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/seed_data_matrix.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/seed_validation_paths.txt
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/factory-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/worker-execution-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/reference_fragment_matrix.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+      repo_mirror_required: yes
+      commit_required: yes
+      push_required: yes
+      required_stage_artifacts:
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/seed_artifact_paths.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/domain_model_summary.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/seed_data_matrix.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/seed_validation_paths.txt
+    required_log_entries:
+  * stage 1 domain model created
+  * seed dataset created
+  * all Stage 1 data artifacts locked under /MOBILE-CHASSIE-V1-FROZEN-
+    checkpoint:
+    checkpoint_id: S2-CHECK
+    pass_condition: Shared types and deterministic seed data exist for discovery, collab cards, matches, messages, and profile views inside the locked target module path under /MOBILE-CHASSIE-V1-FROZEN-.
+    patch_condition: Required demo entities are missing, schema is fragmented per screen, or seed flow cannot support the declared prototype loop.
+    handoff:
+    on_pass:
+    next_stage: S3
+    next_owner: "Foreman A the Blueprint Foreman"
+    on_patch:
+    return_stage: S2
+    return_owner: "Foreman A the Blueprint Foreman"
+    on_error:
+    return_to: Factory Control Interface
+
+* stage_id: S3
+  stage_name: Swipe-first discovery and collab card implementation
+  owner: "Foreman A the Blueprint Foreman"
+  goal: Implement the Stage 1 eye-candy core loop in the locked app module path under /MOBILE-CHASSIE-V1-FROZEN- with a mobile swipe deck and visible collab intent on every candidate.
+  inputs:
+
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+  * shared domain data from S2
+  * target route map from CF-PREP
+    worker_orders:
+    worker_a:
+    assigned: yes
+    task: Implement the mobile discovery screen with swipe card stack, pass/like controls, musician identity block, genre or role chips, and visible collab intent preview inside the locked app module path under /MOBILE-CHASSIE-V1-FROZEN-. Keep it local-first and demo-fast.
+    expected_artifacts:
+
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/discovery_artifact_paths.txt
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/factory-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/worker-execution-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/seed_data_matrix.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+      repo_mirror_required: yes
+      commit_required: yes
+      push_required: yes
+      worker_b:
+      assigned: yes
+      task: Add deterministic interaction handling for pass, like, and deck progression plus a browse fallback list if the swipe stack reaches empty state inside the locked app module path.
+      expected_artifacts:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/discovery_state_paths.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/discovery_demo_checklist.txt
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/factory-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/worker-execution-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/seed_data_matrix.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+      repo_mirror_required: yes
+      commit_required: yes
+      push_required: yes
+      required_stage_artifacts:
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/discovery_artifact_paths.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/discovery_state_paths.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/discovery_demo_checklist.txt
+    required_log_entries:
+  * discovery deck implemented
+  * collab intent visible on cards
+  * discovery artifacts written under /MOBILE-CHASSIE-V1-FROZEN-
+    checkpoint:
+    checkpoint_id: S3-CHECK
+    pass_condition: A user can open the discovery screen, swipe seeded musician cards, and see visible collab intent without route or state failure.
+    patch_condition: Swipe loop is broken, card data is incomplete, or discovery falls back to generic placeholder content.
+    handoff:
+    on_pass:
+    next_stage: S4
+    next_owner: "Foreman A the Blueprint Foreman"
+    on_patch:
+    return_stage: S3
+    return_owner: "Foreman A the Blueprint Foreman"
+    on_error:
+    return_to: Factory Control Interface
+
+* stage_id: S4
+  stage_name: Matches, inbox, and profile loop
+  owner: "Foreman A the Blueprint Foreman"
+  goal: Complete the Stage 1 golden path by connecting discovery actions to deterministic match state, lightweight chat, and profile review inside the locked app module path under /MOBILE-CHASSIE-V1-FROZEN-.
+  inputs:
+
+  * discovery state from S3
+  * shared types and seed messages from S2
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+    worker_orders:
+    worker_a:
+    assigned: yes
+    task: Implement the matches screen, inbox thread list, and single conversation view using deterministic seeded match and message data linked from discovery actions inside the locked app module path under /MOBILE-CHASSIE-V1-FROZEN-.
+    expected_artifacts:
+
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/match_inbox_artifact_paths.txt
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/factory-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/worker-execution-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/seed_data_matrix.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+      repo_mirror_required: yes
+      commit_required: yes
+      push_required: yes
+      worker_b:
+      assigned: yes
+      task: Implement the musician profile screen and a simple collab-post surface so Stage 1 visibly communicates find musicians, match fast, start a collab without expanding into full marketplace complexity inside the locked app module path under /MOBILE-CHASSIE-V1-FROZEN-.
+      expected_artifacts:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/profile_collab_artifact_paths.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/stage1_golden_path.txt
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/factory-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/worker-execution-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/seed_data_matrix.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+      repo_mirror_required: yes
+      commit_required: yes
+      push_required: yes
+      required_stage_artifacts:
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/match_inbox_artifact_paths.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/profile_collab_artifact_paths.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/stage1_golden_path.txt
+    required_log_entries:
+  * matches and inbox implemented
+  * profile and collab views implemented
+  * golden path artifacts written under /MOBILE-CHASSIE-V1-FROZEN-
+    checkpoint:
+    checkpoint_id: S4-CHECK
+    pass_condition: Discovery actions lead to visible match state, inbox data, and profile review; collab view exists as a secondary tab or route.
+    patch_condition: Match state is disconnected from discovery, inbox is nonfunctional, or profile and collab screens are absent or placeholder-only.
+    handoff:
+    on_pass:
+    next_stage: S5
+    next_owner: "Foreman A the Blueprint Foreman"
+    on_patch:
+    return_stage: S4
+    return_owner: "Foreman A the Blueprint Foreman"
+    on_error:
+    return_to: Factory Control Interface
+
+* stage_id: S5
+  stage_name: Navigation, shell wiring, and demo-state clarity
+  owner: "Foreman A the Blueprint Foreman"
+  goal: Wire the locked mobile shell under /MOBILE-CHASSIE-V1-FROZEN- into one coherent Stage 1 demo with bottom navigation, basic loading and empty states, and no dead routes.
+  inputs:
+
+  * implemented screens from S3 and S4
+  * chosen chassis navigation primitives inside /MOBILE-CHASSIE-V1-FROZEN-
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+    worker_orders:
+    worker_a:
+    assigned: yes
+    task: Wire app navigation for Discover, Collabs, Matches, Inbox, and Profile using the factory mobile shell conventions inside the locked app module path under /MOBILE-CHASSIE-V1-FROZEN-. Ensure app boot lands on Discover and every declared route is reachable.
+    expected_artifacts:
+
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/navigation_artifact_paths.txt
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/factory-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/worker-execution-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_route_matrix.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+      repo_mirror_required: yes
+      commit_required: yes
+      push_required: yes
+      worker_b:
+      assigned: yes
+      task: Add minimal empty, loading, and error states for discovery, matches, inbox, and profile so the Stage 1 demo never presents a broken or blank shell inside the locked app module path under /MOBILE-CHASSIE-V1-FROZEN-.
+      expected_artifacts:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/state_surface_artifact_paths.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/mobile_demo_runbook.txt
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/factory-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/worker-execution-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/stage1_golden_path.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+      repo_mirror_required: yes
+      commit_required: yes
+      push_required: yes
+      required_stage_artifacts:
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/navigation_artifact_paths.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/state_surface_artifact_paths.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/mobile_demo_runbook.txt
+    required_log_entries:
+  * mobile shell wired
+  * stage 1 state surfaces added
+  * navigation artifacts written under /MOBILE-CHASSIE-V1-FROZEN-
+    checkpoint:
+    checkpoint_id: S5-CHECK
+    pass_condition: All declared Stage 1 screens are reachable from the mobile shell and no core route displays a dead blank state during normal demo flow.
+    patch_condition: Navigation is broken, route wiring is incomplete, or demo surfaces still present dead panes without declared state handling.
+    handoff:
+    on_pass:
+    next_stage: CF-TEST
+    next_owner: "Foreman A the Blueprint Foreman"
+    on_patch:
+    return_stage: S5
+    return_owner: "Foreman A the Blueprint Foreman"
+    on_error:
+    return_to: Factory Control Interface
+
+* stage_id: CF-TEST
+  stage_name: Cloudflare deploy test
+  owner: "Foreman A the Blueprint Foreman"
+  goal: Prompt operator to perform a real Stage 1 deploy from /MOBILE-CHASSIE-V1-FROZEN- and verify the live demo routes.
+  inputs:
+
+  * current pushed branch and commit evidence
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_prep_report.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/mobile_demo_runbook.txt
+    worker_orders:
+    worker_a:
+    assigned: yes
+    task: Prepare the exact operator prompt to deploy the selected app now on Cloudflare using the declared root path /MOBILE-CHASSIE-V1-FROZEN- and the verified deploy command, then record evidence references for preview and live routes.
+    expected_artifacts:
+
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_operator_prompt.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_test_evidence_index.txt
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/factory-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/worker-execution-manual-v1.1.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_prep_report.txt
+      repo_mirror_required: no
+      commit_required: no
+      push_required: no
+      worker_b:
+      assigned: no
+      task:
+      expected_artifacts: []
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+      repo_mirror_required: no
+      commit_required: no
+      push_required: no
+      required_stage_artifacts:
+  * deployed_route
+  * screenshot_of_live_route
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_operator_prompt.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_test_evidence_index.txt
+    required_log_entries:
+  * operator prompted to test cloudflare deploy now
+    checkpoint:
+    checkpoint_id: CF-TEST-CHECK
+    pass_condition: Operator has been explicitly prompted to deploy now using the declared root path and deploy command, and evidence exists for live discover, matches, inbox, and profile route behavior.
+    patch_condition: Deploy failed, wrong root directory, route inaccessible, or asset path mismatches live behavior.
+    handoff:
+    on_pass:
+    next_stage: CF-VERIFY
+    next_owner: "Foreman B the Systems Foreman"
+    on_patch:
+    return_stage: CF-TEST
+    return_owner: "Foreman A the Blueprint Foreman"
+    on_error:
+    return_to: Factory Control Interface
+
+* stage_id: CF-VERIFY
+  stage_name: Cloudflare checksum validation
+  owner: "Foreman B the Systems Foreman"
+  goal: Validate the live Stage 1 deploy evidence from the /MOBILE-CHASSIE-V1-FROZEN- run before final closeout.
+  inputs:
+
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_test_evidence_index.txt
+  * preview or live route screenshots
+  * operator evidence from runbook execution
+    worker_orders:
+    worker_a:
+    assigned: no
+    task:
+    expected_artifacts: []
+    required_references:
+
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+      repo_mirror_required: no
+      commit_required: no
+      push_required: no
+      worker_b:
+      assigned: no
+      task:
+      expected_artifacts: []
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+      repo_mirror_required: no
+      commit_required: no
+      push_required: no
+      required_stage_artifacts:
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_checksum_result.txt
+    required_log_entries:
+  * cloudflare checksum complete
+    checkpoint:
+    checkpoint_id: CF-VERIFY-CHECK
+    pass_condition: Live deploy matches the declared target and core mobile routes respond with expected Stage 1 demo behavior.
+    patch_condition: Missing evidence, wrong deployed target, route mismatch, or inaccessible preview or live app.
+    handoff:
+    on_pass:
+    next_stage: S6
+    next_owner: "Foreman B the Systems Foreman"
+    on_patch:
+    return_stage: CF-TEST
+    return_owner: "Foreman A the Blueprint Foreman"
+    on_error:
+    return_to: Factory Control Interface
+
+* stage_id: S6
+  stage_name: Final checksum and closeout
+  owner: "Foreman B the Systems Foreman"
+  goal: Validate that the Stage 1 swipe-first prototype on /MOBILE-CHASSIE-V1-FROZEN- is demoable and complete within declared scope.
+  inputs:
+
+  * all stage artifacts
+  * live deploy evidence
+  * repo mirror, commit, and push evidence
+    worker_orders:
+    worker_a:
+    assigned: no
+    task:
+    expected_artifacts: []
+    required_references:
+
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+      repo_mirror_required: no
+      commit_required: no
+      push_required: no
+      worker_b:
+      assigned: no
+      task:
+      expected_artifacts: []
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+      repo_mirror_required: no
+      commit_required: no
+      push_required: no
+      required_stage_artifacts:
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/final_checksum.txt
+    required_log_entries:
+  * final checksum complete
+    checkpoint:
+    checkpoint_id: S6-CHECK
+    pass_condition: The Stage 1 prototype proves seeded swipe discovery, visible collab intent, match state, inbox flow, profile view, mobile navigation, and live deploy evidence with no payment system included.
+    patch_condition: Any declared golden-path proof is missing code artifact, route evidence, repo evidence, or scope has expanded beyond Stage 1.
+    handoff:
+    on_pass:
+    next_stage: S7
+    next_owner: Factory Control Interface
+    on_patch:
+    return_stage: S3
+    return_owner: "Foreman A the Blueprint Foreman"
+    on_error:
+    return_to: Factory Control Interface
+
+* stage_id: S7
+  stage_name: TPS closeout
+  owner: Factory Control Interface
+  goal: Perform final validation and generate the Stage 1 TPS report.
+  inputs:
+
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/stage_activity_log.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/final_checksum.txt
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_checksum_result.txt
+  * all required stage artifacts
+    worker_orders:
+    worker_a:
+    assigned: no
+    task:
+    expected_artifacts: []
+    required_references:
+
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+      repo_mirror_required: no
+      commit_required: no
+      push_required: no
+      worker_b:
+      assigned: no
+      task:
+      expected_artifacts: []
+      required_references:
+    * /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+      repo_mirror_required: no
+      commit_required: no
+      push_required: no
+      required_stage_artifacts:
+  * /MOBILE-CHASSIE-V1-FROZEN-/job_site/TPS_REPORT.txt
+    required_log_entries:
+  * TPS report written
+    checkpoint:
+    checkpoint_id: S7-CHECK
+    pass_condition: TPS report exists and summarizes Stage 1 outcome, patch history, artifact set, deploy evidence, and residual risks without expanding scope.
+    patch_condition: TPS report missing or incomplete.
+    handoff:
+    on_pass:
+    next_stage: complete
+    next_owner: Factory Control Interface
+    on_patch:
+    return_stage: S7
+    return_owner: Factory Control Interface
+    on_error:
+    return_to: Factory Control Interface
+
+final_validation:
+required_inputs:
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/stage1_scope_lock.txt
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/target_path_lock.txt
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/reference_fragment_matrix.txt
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/stage_activity_log.txt
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/final_checksum.txt
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_checksum_result.txt
+validation_checks:
+- verify Stage 1 scope remained strictly discovery, collab visibility, matches, inbox, profile, and navigation
+- verify target filesystem root remained /MOBILE-CHASSIE-V1-FROZEN-
+- verify target app module path was made explicit before file changes
+- verify deterministic seed data exists for every declared golden-path screen
+- verify swipe-first discovery works with visible collab intent
+- verify discovery actions produce visible match and inbox state
+- verify profile and collab screens exist and are reachable
+- verify every file-writing stage reports repo mirror, commit, and push evidence where required
+- verify cloudflare_deployment_plan block exists
+- verify operator was explicitly prompted to test real Cloudflare deploy
+- verify Cloudflare deploy evidence exists before closeout
+- verify payment system remained out of scope for Stage 1
+- verify no declared artifact path escapes /MOBILE-CHASSIE-V1-FROZEN-
+outputs:
+- completion_status
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/TPS_REPORT.txt
+
+completion:
+success_condition:
+- all declared stages completed
+- all required artifacts present
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/stage_activity_log.txt present
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site/TPS_REPORT.txt present
+- swipe discovery proven
+- collab intent visibly present
+- match and inbox loop proven
+- core mobile routes deployed and validated
+- payment system excluded from Stage 1
+- all build writes remained under /MOBILE-CHASSIE-V1-FROZEN-
+closeout_owner: Factory Control Interface
