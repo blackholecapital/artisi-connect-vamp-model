@@ -1,0 +1,30 @@
+VAMPYR-STAGE1-001 | S4 | WORKER-B
+
+locked_app_module_path:
+- /workspace/artisi-connect-vamp-model/apps/web-public/src/stage1
+
+implemented_profile_collab_artifacts:
+- /workspace/artisi-connect-vamp-model/apps/web-public/src/stage1/profile-collab-screen.ts
+  purpose: stage1 musician profile screen plus secondary collab-post route surface linked to deterministic discovery like-state
+
+state_linkage:
+- consumes DiscoveryState from /apps/web-public/src/stage1/discovery-state.ts
+- resolves actor profile and liked profile IDs from seeded Stage1 bundle
+- gates collab-post cards to liked-profile authors only (simple stage1 scope)
+
+ui_surfaces_added:
+- Profile screen:
+  - actor profile card
+  - matched musicians list from liked_profile_ids
+  - Stage1 value line: "Find musicians • Match fast • Start a collab"
+- Collab screen:
+  - simple collab-post feed from deterministic local fixtures
+  - empty-state when no liked musicians exist yet
+
+repo_mirror_execution:
+- required: yes
+- commit_required: yes
+- push_required: yes
+- remote_name: origin
+- remote_url: /tmp/artisi-connect-vamp-model.mirror.git
+- pushed_branch: work
