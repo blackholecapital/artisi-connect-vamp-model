@@ -1,0 +1,55 @@
+S2 WORKER B — STAGE 1 SEED DATA MATRIX
+job_id: VAMPYR-STAGE1-001
+stage: S2 (REISSUE)
+scope: narrow checklist for deterministic discovery cards, matches, and inbox paths
+root_lock_expected: /MOBILE-CHASSIE-V1-FROZEN-
+artifact_path_expected: /MOBILE-CHASSIE-V1-FROZEN-/job_site/seed_data_matrix.txt
+artifact_path_actual: ./job_site/seed_data_matrix.txt
+
+required_reference_status:
+- /job_site/factory-manual-v1.1.txt -> missing exact name (present: factory-manual-v1.11.txt)
+- /job_site/worker-execution-manual-v1.1.txt -> present
+- /job_site/build-sheet-VAMPYR-STAGE1-001.txt -> missing exact case (present: BUILD-SHEET-VAMPYR-STAGE1-001.txt)
+- /job_site/reference_fragment_matrix.txt -> missing
+- /job_site/target_path_lock.txt -> missing
+
+stage_1_seed_checklist:
+- [ ] CARD-001..CARD-012 deterministic discovery cards exist
+      required fields per card: card_id, musician_id, display_name, role_or_genre_tags, collab_intent_preview
+      determinism rule: stable IDs and deterministic ordering key
+
+- [ ] MATCH-001..MATCH-006 deterministic match records exist
+      required fields per match: match_id, source_card_id, peer_musician_id, match_state
+      determinism rule: each match references existing card_id and fixed state values
+
+- [ ] THREAD-001..THREAD-006 deterministic inbox thread records exist
+      required fields per thread: thread_id, match_id, participant_ids, last_message_at
+      determinism rule: thread_id and match_id mapping is one-to-one and stable
+
+- [ ] MSG-001..MSG-024 deterministic message fixtures exist
+      required fields per message: message_id, thread_id, sender_id, body, sent_at
+      determinism rule: sent_at uses fixed timestamps and messages are strictly ordered per thread
+
+route_to_seed_coverage:
+- /discover -> requires CARD set only
+- /matches  -> requires MATCH set derived from CARD set
+- /inbox    -> requires THREAD + MSG sets derived from MATCH set
+- /profile  -> requires musician records referenced by CARD/MATCH/THREAD
+- /         -> route bootstrap must default to seeded discovery state for demo flow
+
+integrity_constraints:
+- every match.source_card_id must resolve to an existing card_id
+- every thread.match_id must resolve to an existing match_id
+- every message.thread_id must resolve to an existing thread_id
+- no orphan card/match/thread/message IDs
+- no runtime-random IDs for Stage 1 demo fixtures
+
+repo_mirror_execution:
+- remote_name: origin
+- remote_type: local bare mirror
+- mirror_path: /tmp/artisi-connect-vamp-model.mirror.git
+- push_requirement: satisfied in this execution environment
+
+worker_b_handoff:
+- Downstream owner (Worker A / integrator) must materialize the actual fixture files in the locked module path and keep IDs exactly stable.
+- This matrix is the acceptance checklist for deterministic demo data, not a code data-file implementation.

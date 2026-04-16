@@ -1,0 +1,63 @@
+CF-PREP ROUTE MATRIX
+job_id: VAMPYR-STAGE1-001
+stage: CF-PREP
+worker: B
+repo_root_observed: /workspace/artisi-connect-vamp-model
+intended_root_from_build_sheet: /MOBILE-CHASSIE-V1-FROZEN-
+artifact_path: /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_route_matrix.txt (mapped here as ./job_site/cloudflare_route_matrix.txt)
+
+required_reference_check:
+- factory-manual-v1.1.txt: NOT FOUND (closest present: ./job_site/factory-manual-v1.11.txt)
+- worker-execution-manual-v1.1.txt: FOUND at ./job_site/worker-execution-manual-v1.1.txt
+- build-sheet-VAMPYR-STAGE1-001.txt: NOT FOUND (closest present: ./job_site/BUILD-SHEET-VAMPYR-STAGE1-001.txt)
+- target_path_lock.txt: NOT FOUND
+
+public_route_expectation_matrix:
+- route: /
+  expectation_source: build-sheet required_public_test_routes block
+  current_repo_evidence: no web app entry file or router config found in repository root; apps/web-public contains mount metadata only
+  deploy_outcome_risk: HIGH (root route behavior undefined for Pages)
+
+- route: /discover
+  expectation_source: build-sheet required_public_test_routes block
+  current_repo_evidence: no route declaration for /discover found in apps/ or package configs
+  deploy_outcome_risk: HIGH (likely 404 unless runtime SPA fallback and route handler are added)
+
+- route: /matches
+  expectation_source: build-sheet required_public_test_routes block
+  current_repo_evidence: no route declaration for /matches found in apps/ or package configs
+  deploy_outcome_risk: HIGH
+
+- route: /inbox
+  expectation_source: build-sheet required_public_test_routes block
+  current_repo_evidence: no route declaration for /inbox found in apps/ or package configs
+  deploy_outcome_risk: HIGH
+
+- route: /profile
+  expectation_source: build-sheet required_public_test_routes block
+  current_repo_evidence: no route declaration for /profile found in apps/ or package configs
+  deploy_outcome_risk: HIGH
+
+root_asset_routing_drift_risks:
+1) ROOT PATH DRIFT
+   - Build sheet declares /MOBILE-CHASSIE-V1-FROZEN- root, but active repo path is /workspace/artisi-connect-vamp-model.
+   - Risk: Pages project root may be pointed at wrong directory.
+
+2) REFERENCE DRIFT
+   - Required file names in worker order differ from files currently present (version/case mismatch).
+   - Risk: automation/scripts expecting exact names will fail before deploy verification.
+
+3) APP ENTRY DRIFT
+   - No package.json/wrangler.toml/pages build config discovered in repo.
+   - Risk: no deterministic build/deploy command can be bound to route expectations.
+
+4) ROUTING DRIFT
+   - No discover/matches/inbox/profile route definitions found.
+   - Risk: direct navigation to required public routes returns 404 on Pages.
+
+5) ASSET/PATH DRIFT
+   - No confirmed build output directory or SPA fallback rule in this repo snapshot.
+   - Risk: even if root works, deep links may fail due to missing fallback/asset base config.
+
+worker_b_result: PATCH-RISK
+note: Route expectations are declared, but current repository snapshot does not yet expose deployable public route wiring for required Stage 1 paths.
