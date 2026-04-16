@@ -1,0 +1,24 @@
+VAMPYR-STAGE1-001 | S4 | WORKER-B
+
+stage1_golden_path_profile_collab:
+1) Initialize Stage1 discovery state for actor profile (e.g., prof_ava).
+2) Execute discovery interactions:
+   - pass/like decisions persist by candidate_id.
+   - like decisions append peer profile IDs to liked_profile_ids.
+3) Build profile+collab model using createProfileCollabViewModel(seed, discoveryState).
+4) /profile surface renders:
+   - actor profile identity
+   - matched musicians list from liked_profile_ids
+5) /collab (secondary route/tab) renders:
+   - simple collab-post cards authored by matched musicians only
+   - deterministic empty state when no likes exist
+
+acceptance_alignment_for_s4_check:
+- discovery actions influence visible profile match section
+- collab view exists as a secondary route/tab surface
+- no marketplace expansion (no bidding/payments/advanced workflows)
+- deterministic local fixtures only
+
+verification_notes:
+- profile and collab flows are contained under /apps/web-public/src/stage1
+- all artifacts documented within /job_site only
