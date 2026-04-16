@@ -93,5 +93,24 @@ export const STAGE1_SEED_FIXTURES: Stage1SeedBundle = {
         },
       ],
     },
+    {
+      thread_id: "thread_ava_zen",
+      match_id: "match_ava_zen",
+      participants: ["prof_ava", "prof_zen"],
+      messages: [
+        {
+          message_id: "msg_003",
+          from_profile_id: "prof_zen",
+          body: "I can track two guitar texture options by Friday.",
+          sent_at_iso: "2026-04-16T00:15:00.000Z",
+        },
+        {
+          message_id: "msg_004",
+          from_profile_id: "prof_ava",
+          body: "Perfect. I will share stems and a rough vocal tonight.",
+          sent_at_iso: "2026-04-16T00:21:00.000Z",
+        },
+      ],
+    },
   ],
 };
