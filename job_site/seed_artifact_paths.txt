@@ -10,3 +10,7 @@ Created artifacts:
 Repo-local equivalents created in this run:
 - /workspace/artisi-connect-vamp-model/apps/web-public/src/stage1/domain-model.ts
 - /workspace/artisi-connect-vamp-model/apps/web-public/src/stage1/seed-fixtures.ts
+
+Reissue execution (S2):
+- repo_mirror_remote: origin (file:///tmp/artisi-connect-vamp-model-mirror.git)
+- push_target: origin/work
