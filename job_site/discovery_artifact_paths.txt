@@ -16,3 +16,11 @@ Discovery screen contents implemented:
 - Role and genre chips
 - Visible collab intent preview with intent tags
 - Local-first deterministic deck state + swipe reducer helpers
+
+Remote repository sync (S3 REISSUE):
+- configured remote: origin
+- configured remote url: https://github.com/blackholecapital/artisi-connect-vamp-model.git
+- target branch: work
+- required commit containing discovery implementation: 0e04570 ("Implement stage1 mobile discovery swipe screen")
+- push attempt: failed in this environment
+- push error: CONNECT tunnel failed, response 403
