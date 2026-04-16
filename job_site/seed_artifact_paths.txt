@@ -1,0 +1,12 @@
+S2 Worker A — Seed Artifact Paths
+
+Locked app module path (inferred from available repo structure):
+- /MOBILE-CHASSIE-V1-FROZEN-/apps/web-public/src/stage1
+
+Created artifacts:
+- /MOBILE-CHASSIE-V1-FROZEN-/apps/web-public/src/stage1/domain-model.ts
+- /MOBILE-CHASSIE-V1-FROZEN-/apps/web-public/src/stage1/seed-fixtures.ts
+
+Repo-local equivalents created in this run:
+- /workspace/artisi-connect-vamp-model/apps/web-public/src/stage1/domain-model.ts
+- /workspace/artisi-connect-vamp-model/apps/web-public/src/stage1/seed-fixtures.ts
