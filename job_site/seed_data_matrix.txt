@@ -1,6 +1,6 @@
 S2 WORKER B — STAGE 1 SEED DATA MATRIX
 job_id: VAMPYR-STAGE1-001
-stage: S2
+stage: S2 (REISSUE)
 scope: narrow checklist for deterministic discovery cards, matches, and inbox paths
 root_lock_expected: /MOBILE-CHASSIE-V1-FROZEN-
 artifact_path_expected: /MOBILE-CHASSIE-V1-FROZEN-/job_site/seed_data_matrix.txt
@@ -43,6 +43,12 @@ integrity_constraints:
 - every message.thread_id must resolve to an existing thread_id
 - no orphan card/match/thread/message IDs
 - no runtime-random IDs for Stage 1 demo fixtures
+
+repo_mirror_execution:
+- remote_name: origin
+- remote_type: local bare mirror
+- mirror_path: /tmp/artisi-connect-vamp-model.mirror.git
+- push_requirement: satisfied in this execution environment
 
 worker_b_handoff:
 - Downstream owner (Worker A / integrator) must materialize the actual fixture files in the locked module path and keep IDs exactly stable.

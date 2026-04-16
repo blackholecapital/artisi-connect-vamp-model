@@ -1,6 +1,6 @@
 S2 WORKER B — SEED VALIDATION PATHS
 job_id: VAMPYR-STAGE1-001
-stage: S2
+stage: S2 (REISSUE)
 artifact_path_expected: /MOBILE-CHASSIE-V1-FROZEN-/job_site/seed_validation_paths.txt
 artifact_path_actual: ./job_site/seed_validation_paths.txt
 
@@ -37,6 +37,11 @@ unverified_in_this_snapshot:
 - reference_fragment_matrix.txt missing
 - target_path_lock.txt missing
 - concrete seed fixture file paths not yet provided by Worker A artifacts (seed_artifact_paths/domain_model_summary)
+
+repo_mirror_validation:
+- required: yes
+- remote configured: origin -> /tmp/artisi-connect-vamp-model.mirror.git
+- push status: success (see git push in verification run)
 
 worker_b_result: PASS (artifact delivery)
 handoff_note: integrate these checks into final seed fixture implementation and CI/QA smoke checks.
