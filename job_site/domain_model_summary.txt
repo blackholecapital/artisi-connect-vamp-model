@@ -1,0 +1,22 @@
+S2 Worker A — Stage 1 Domain Model Summary
+
+Scope delivered:
+- Musician profile model
+- Collab intent model
+- Swipe candidate model
+- Match state model
+- Messages/thread model
+- Deterministic seed fixture bundle for discovery, matches, and inbox flow
+
+Model notes:
+- `domain-model.ts` defines Stage 1-only interfaces and constants for collab intent types.
+- `seed-fixtures.ts` exports `STAGE1_SEED_FIXTURES` with 3 profiles, 3 collab intents, 2 swipe candidates, 2 match states, and 1 populated message thread.
+- The model is intentionally narrow and does not include payments, auth expansion, or non-Stage-1 features.
+
+Schema-fragment reuse:
+- Reused existing repository convention of explicit ID fields (`*_id`) and readonly typed records from current contracts package patterns.
+- Kept the Stage 1 model isolated under `apps/web-public/src/stage1` to avoid changing existing chassis interfaces.
+
+Handoff notes:
+- Required references `reference_fragment_matrix.txt` and `target_path_lock.txt` were not present in this workspace; app module path was inferred from available public app route surface (`apps/web-public`).
+- If Foreman publishes a different locked target path, move only this Stage 1 folder unchanged.
