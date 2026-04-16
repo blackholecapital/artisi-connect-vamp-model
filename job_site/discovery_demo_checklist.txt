@@ -1,0 +1,15 @@
+VAMPYR-STAGE1-001 | S3 | WORKER-B
+
+discovery_demo_checklist:
+- [ ] Initialize state with createInitialDiscoveryState(STAGE1_SEED_FIXTURES, "prof_ava")
+- [ ] Verify first active card equals first swipe_candidates entry (deterministic order)
+- [ ] Apply "pass" and confirm:
+      - decision is recorded for that candidate
+      - cursor advances to next undecided candidate
+- [ ] Apply "like" and confirm:
+      - decision is recorded for that candidate
+      - liked_profile_ids contains the target profile_id exactly once
+- [ ] Continue interactions until active card is null
+- [ ] Confirm deck_empty === true
+- [ ] Confirm browse_fallback list is returned and sorted by profile display_name (then candidate_id)
+- [ ] Confirm browse_fallback items include decision status values ("like" | "pass" | "unseen")
