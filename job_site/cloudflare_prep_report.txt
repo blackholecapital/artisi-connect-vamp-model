@@ -1,0 +1,31 @@
+CF-PREP REPORT — Worker A
+
+Scope checked:
+- Required run root from build sheet: /MOBILE-CHASSIE-V1-FROZEN-
+- Available workspace root: /workspace/artisi-connect-vamp-model
+
+Verification results (current-valid only):
+1) Stage 1 app module root
+- VALID in current workspace: /workspace/artisi-connect-vamp-model
+- Required path /MOBILE-CHASSIE-V1-FROZEN- is NOT present in current filesystem.
+
+2) Package manager command
+- No package manifest found in current workspace (no package.json / pnpm-lock.yaml / yarn.lock / package-lock.json).
+- Therefore no current-valid package manager install/run command can be asserted.
+
+3) Build command
+- No build manifest/config found in current workspace to derive a Stage 1 build command.
+- Therefore no current-valid build command can be asserted.
+
+4) Output directory
+- No build config/artifact directory found that can be confirmed as Stage 1 output.
+- Therefore no current-valid output directory can be asserted.
+
+5) Cloudflare deploy command
+- No wrangler config found (no wrangler.toml/wrangler.json) in current workspace.
+- Therefore no current-valid Cloudflare Pages deploy command can be asserted.
+
+Command evidence executed:
+- pwd
+- find /workspace/artisi-connect-vamp-model -maxdepth 3 -name 'package.json' -o -name 'pnpm-lock.yaml' -o -name 'yarn.lock' -o -name 'package-lock.json' -o -name 'wrangler.toml'
+- find /workspace/artisi-connect-vamp-model -maxdepth 3 -name 'wrangler.json' -o -name 'pyproject.toml' -o -name 'Cargo.toml' -o -name 'Makefile' -o -name 'vite.config.*' -o -name 'next.config.*' -o -name 'turbo.json' -o -name 'nx.json'
