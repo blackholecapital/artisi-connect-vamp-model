@@ -33,3 +33,14 @@ Handoff (network/auth owner required):
 - provide PAT/credential helper or SSH key material in runner
 - rerun: git push -u origin work
 - verify visibility: git ls-remote --heads origin work
+
+S3 Worker A REISSUE attempt — 2026-04-16 (UTC)
+- command: git remote set-url origin https://github.com/blackholecapital/artisi-connect-vamp-model.git
+- result: success
+- command: GIT_TERMINAL_PROMPT=0 git ls-remote --heads origin
+- result: failed (fatal: CONNECT tunnel failed, response 403)
+- command: GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=accept-new -o BatchMode=yes' git ls-remote --heads git@github.com:blackholecapital/artisi-connect-vamp-model.git
+- result: failed (ssh network unreachable on github.com:22)
+- command: git push -u origin work
+- result: failed (same HTTPS proxy CONNECT 403)
+- visible_branch_confirmation: unavailable from this runner due to blocked outbound GitHub access
