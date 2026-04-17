@@ -26,6 +26,8 @@ export interface ConversationMessage {
   readonly sent_at: string;
 }
 
+export type SurfaceState = "ready" | "loading" | "error";
+
 function getCandidateById(seed: Stage1SeedBundle, candidateId: string) {
   return seed.swipe_candidates.find((candidate) => candidate.candidate_id === candidateId);
 }
@@ -108,7 +110,27 @@ function resolveDisplayName(seed: Stage1SeedBundle, profileId: string): string {
   return seed.profiles.find((profile) => profile.profile_id === profileId)?.display_name ?? profileId;
 }
 
-export function renderMatchesScreen(seed: Stage1SeedBundle, matches: readonly DerivedMatchRecord[]): string {
+export function renderMatchesScreen(
+  seed: Stage1SeedBundle,
+  matches: readonly DerivedMatchRecord[],
+  surfaceState: SurfaceState = "ready",
+): string {
+  if (surfaceState === "loading") {
+    return `<main style="min-height:100vh;max-width:420px;margin:0 auto;padding:16px;color:#fff;background:#0d1022;font-family:Inter,system-ui,sans-serif;">
+      <h1 style="margin:0 0 12px;">Matches</h1>
+      <p style="opacity:.75;">Loading match state…</p>
+    </main>`;
+  }
+
+  if (surfaceState === "error") {
+    return `<main style="min-height:100vh;max-width:420px;margin:0 auto;padding:16px;color:#fff;background:#0d1022;font-family:Inter,system-ui,sans-serif;">
+      <h1 style="margin:0 0 12px;">Matches</h1>
+      <section style="border-radius:14px;padding:12px;border:1px solid rgba(255,105,125,.45);background:rgba(255,105,125,.12);">
+        <p style="margin:0;">Matches failed to load. Keep shell active and retry seeded state.</p>
+      </section>
+    </main>`;
+  }
+
   const rows = matches
     .map((match) => {
       const name = resolveDisplayName(seed, match.peer_musician_id);
@@ -128,7 +150,27 @@ export function renderMatchesScreen(seed: Stage1SeedBundle, matches: readonly De
   </main>`;
 }
 
-export function renderInboxThreadList(seed: Stage1SeedBundle, threads: readonly InboxThreadListItem[]): string {
+export function renderInboxThreadList(
+  seed: Stage1SeedBundle,
+  threads: readonly InboxThreadListItem[],
+  surfaceState: SurfaceState = "ready",
+): string {
+  if (surfaceState === "loading") {
+    return `<main style="min-height:100vh;max-width:420px;margin:0 auto;padding:16px;color:#fff;background:#0d1022;font-family:Inter,system-ui,sans-serif;">
+      <h1 style="margin:0 0 12px;">Inbox</h1>
+      <p style="opacity:.75;">Loading conversations…</p>
+    </main>`;
+  }
+
+  if (surfaceState === "error") {
+    return `<main style="min-height:100vh;max-width:420px;margin:0 auto;padding:16px;color:#fff;background:#0d1022;font-family:Inter,system-ui,sans-serif;">
+      <h1 style="margin:0 0 12px;">Inbox</h1>
+      <section style="border-radius:14px;padding:12px;border:1px solid rgba(255,105,125,.45);background:rgba(255,105,125,.12);">
+        <p style="margin:0;">Inbox is unavailable. Retry to restore thread list.</p>
+      </section>
+    </main>`;
+  }
+
   const rows = threads
     .map((thread) => {
       const name = resolveDisplayName(seed, thread.peer_musician_id);

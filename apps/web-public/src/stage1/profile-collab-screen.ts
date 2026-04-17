@@ -16,6 +16,8 @@ export interface ProfileCollabViewModel {
   readonly suggested_posts: readonly CollabPost[];
 }
 
+export type ProfileSurfaceState = "ready" | "loading" | "error";
+
 const COLLAB_POST_FIXTURES: readonly CollabPost[] = [
   {
     post_id: "post_miles_altpop_drop",
@@ -88,7 +90,26 @@ function renderCollabPost(post: CollabPost, author: MusicianProfile): string {
   </article>`;
 }
 
-export function renderProfileScreen(model: ProfileCollabViewModel): string {
+export function renderProfileScreen(
+  model: ProfileCollabViewModel,
+  surfaceState: ProfileSurfaceState = "ready",
+): string {
+  if (surfaceState === "loading") {
+    return `<main style="min-height:100vh; max-width:420px; margin:0 auto; padding:16px; color:#fff; background: radial-gradient(circle at top, #253359, #0b0c16 62%); font-family: Inter, system-ui, sans-serif;">
+      <h1 style="margin:0;">Profile</h1>
+      <p style="margin:8px 0 0; opacity:.8;">Loading profile state…</p>
+    </main>`;
+  }
+
+  if (surfaceState === "error") {
+    return `<main style="min-height:100vh; max-width:420px; margin:0 auto; padding:16px; color:#fff; background: radial-gradient(circle at top, #253359, #0b0c16 62%); font-family: Inter, system-ui, sans-serif;">
+      <h1 style="margin:0;">Profile</h1>
+      <section style="margin-top:12px;border-radius:14px;padding:12px;border:1px solid rgba(255,105,125,.45);background:rgba(255,105,125,.12);">
+        <p style="margin:0;">Profile data failed to load. Keep demo on this safe shell state.</p>
+      </section>
+    </main>`;
+  }
+
   const likedMarkup = model.liked_profiles.length > 0
     ? model.liked_profiles.map(renderProfileCard).join("")
     : `<p style="margin:0; font-size:12px; opacity:.8;">No matches yet. Swipe Like in Discover to unlock collaborator profiles.</p>`;

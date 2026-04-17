@@ -1,0 +1,35 @@
+VAMPYR-STAGE1-001 | S5 | WORKER-B
+
+goal:
+- Add minimal empty/loading/error states for discovery, matches, inbox, and profile to prevent blank/broken shell during demo navigation.
+
+locked_scope:
+- /workspace/artisi-connect-vamp-model/apps/web-public/src/stage1
+- /workspace/artisi-connect-vamp-model/job_site
+
+artifacts_modified:
+- /workspace/artisi-connect-vamp-model/apps/web-public/src/stage1/discovery-screen.ts
+  - added DiscoverySurfaceState (ready/loading/error)
+  - added loading and error shell render paths
+  - hardened empty state messaging for truly empty candidate fixture
+- /workspace/artisi-connect-vamp-model/apps/web-public/src/stage1/match-inbox-screen.ts
+  - added SurfaceState (ready/loading/error)
+  - added loading and error shell render paths for matches
+  - added loading and error shell render paths for inbox
+- /workspace/artisi-connect-vamp-model/apps/web-public/src/stage1/profile-collab-screen.ts
+  - added ProfileSurfaceState (ready/loading/error)
+  - added loading and error shell render paths for profile
+- /workspace/artisi-connect-vamp-model/job_site/state_surface_artifact_paths.txt
+- /workspace/artisi-connect-vamp-model/job_site/mobile_demo_runbook.txt
+
+required_references_reviewed:
+- /workspace/artisi-connect-vamp-model/job_site/factory-manual-v1.11.txt (closest available path)
+- /workspace/artisi-connect-vamp-model/job_site/worker-execution-manual-v1.1.txt
+- /workspace/artisi-connect-vamp-model/job_site/BUILD-SHEET-VAMPYR-STAGE1-001.txt (closest available path)
+- /workspace/artisi-connect-vamp-model/job_site/stage1_golden_path.txt
+
+verification_commands:
+- rg -n "DiscoverySurfaceState|Loading discovery cards|temporarily unavailable|No discovery cards" apps/web-public/src/stage1/discovery-screen.ts
+- rg -n "type SurfaceState|Loading match state|Matches failed to load|Loading conversations|Inbox is unavailable" apps/web-public/src/stage1/match-inbox-screen.ts
+- rg -n "ProfileSurfaceState|Loading profile state|failed to load" apps/web-public/src/stage1/profile-collab-screen.ts
+- pnpm --filter web-public exec tsc --noEmit
