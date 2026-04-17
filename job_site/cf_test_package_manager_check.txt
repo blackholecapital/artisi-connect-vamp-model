@@ -1,1 +1,2 @@
-$ find . -maxdepth 3 -name package.json -o -name wrangler.toml -o -name wrangler.json
+$ find . -maxdepth 3 \( -name package.json -o -name wrangler.toml -o -name wrangler.json \)
+./apps/web-public/package.json
