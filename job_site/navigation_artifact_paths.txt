@@ -1,0 +1,33 @@
+VAMPYR-STAGE1-001 | S5 | WORKER-A
+
+locked_app_module_path:
+- /workspace/artisi-connect-vamp-model/apps/web-public/src/stage1
+
+navigation_wiring_artifacts:
+- /workspace/artisi-connect-vamp-model/apps/web-public/src/stage1/mobile-shell-navigation.ts
+  purpose: Stage 1 mobile shell navigation wiring for Discover, Collabs, Matches, Inbox, and Profile.
+
+route_wiring_summary:
+- declared routes: /, /discover, /collabs, /matches, /inbox, /profile
+- boot route behavior: / resolves to /discover via resolveStage1Route
+- shell navigation: STAGE1_BOTTOM_NAV_ITEMS defines 5-tab bottom nav (Discover, Collabs, Matches, Inbox, Profile)
+- route reachability: renderActiveRoute maps each declared Stage 1 route to a concrete screen renderer
+
+required_reference_reviewed:
+- /workspace/artisi-connect-vamp-model/job_site/factory-manual-v1.11.txt (closest available to requested factory-manual-v1.1.txt)
+- /workspace/artisi-connect-vamp-model/job_site/worker-execution-manual-v1.1.txt
+- /workspace/artisi-connect-vamp-model/job_site/BUILD-SHEET-VAMPYR-STAGE1-001.txt (closest available to requested build-sheet-VAMPYR-STAGE1-001.txt)
+- /workspace/artisi-connect-vamp-model/job_site/cloudflare_route_matrix.txt
+- /workspace/artisi-connect-vamp-model/job_site/stage1_golden_path.txt
+
+validation_commands:
+- rg -n "STAGE1_NAV_ROUTES|STAGE1_DECLARED_ROUTES|STAGE1_BOTTOM_NAV_ITEMS|resolveStage1Route|createStage1MobileAppState|navigateStage1App|renderStage1MobileShell" apps/web-public/src/stage1/mobile-shell-navigation.ts
+- rg -n "case STAGE1_NAV_ROUTES\\.COLLABS|case STAGE1_NAV_ROUTES\\.MATCHES|case STAGE1_NAV_ROUTES\\.INBOX|return STAGE1_NAV_ROUTES\\.DISCOVER" apps/web-public/src/stage1/mobile-shell-navigation.ts
+
+repo_mirror_sync:
+- remote_name: origin
+- remote_url: https://github.com/blackholecapital/artisi-connect-vamp-model.git
+- pushed_branch: work
+- push_command: git push -u origin work
+- push_status: failed (fatal: CONNECT tunnel failed, response 403)
+- handoff: rerun push from an environment with GitHub egress/credentials enabled
