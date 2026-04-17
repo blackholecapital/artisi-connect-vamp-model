@@ -1,0 +1,5 @@
+CF-TEST runtime notes
+timestamp_utc: 2026-04-17T00:39:42Z
+route: /matches
+status: unverified (no Cloudflare preview/live URL available in this workspace)
+shell_render: unverified

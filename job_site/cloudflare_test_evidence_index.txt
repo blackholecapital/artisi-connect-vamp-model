@@ -6,52 +6,52 @@ Instructions
 - Do not leave placeholders unresolved.
 
 A) Deployment verification outputs (required)
-1. repo_url:
-2. root_path_check_command:
-3. root_path_check_output_file:
-4. package_manager_check_command:
-5. package_manager_check_output_file:
-6. build_command_used:
-7. build_output_directory:
-8. deploy_command_used:
-9. deploy_output_log_file:
-10. preview_url:
+1. repo_url: local workspace checkout (remote URL not configured in this environment)
+2. root_path_check_command: pwd
+3. root_path_check_output_file: job_site/cf_test_root_path_check.txt
+4. package_manager_check_command: find . -maxdepth 3 \( -name package.json -o -name wrangler.toml -o -name wrangler.json \)
+5. package_manager_check_output_file: job_site/cf_test_package_manager_check.txt
+6. build_command_used: BLOCKED (apps/web-public/package.json missing)
+7. build_output_directory: BLOCKED (no build output generated)
+8. deploy_command_used: BLOCKED (no wrangler config and no Cloudflare dashboard access in workspace)
+9. deploy_output_log_file: BLOCKED (no deploy executed)
+10. preview_url: BLOCKED (deploy not executed)
 
 B) Cloudflare dashboard / deploy evidence screenshots (required)
-11. cloudflare_dashboard_project_screenshot:
-12. deploy_success_screenshot:
+11. cloudflare_dashboard_project_screenshot: BLOCKED (dashboard access unavailable)
+12. deploy_success_screenshot: BLOCKED (no successful deploy)
 
 C) Route test evidence (required routes)
-13. route_root_url:
-14. route_root_status_output_file:
-15. route_root_screenshot:
+13. route_root_url: BLOCKED (no preview URL)
+14. route_root_status_output_file: BLOCKED
+15. route_root_screenshot: BLOCKED
 
-16. route_discover_url:
-17. route_discover_status_output_file:
-18. route_discover_screenshot:
+16. route_discover_url: BLOCKED (no preview URL)
+17. route_discover_status_output_file: BLOCKED
+18. route_discover_screenshot: BLOCKED
 
-19. route_matches_url:
-20. route_matches_status_output_file:
-21. route_matches_screenshot:
+19. route_matches_url: BLOCKED (no preview URL)
+20. route_matches_status_output_file: BLOCKED
+21. route_matches_screenshot: BLOCKED
 
-22. route_inbox_url:
-23. route_inbox_status_output_file:
-24. route_inbox_screenshot:
+22. route_inbox_url: BLOCKED (no preview URL)
+23. route_inbox_status_output_file: BLOCKED
+24. route_inbox_screenshot: BLOCKED
 
-25. route_profile_url:
-26. route_profile_status_output_file:
-27. route_profile_screenshot:
+25. route_profile_url: BLOCKED (no preview URL)
+26. route_profile_status_output_file: BLOCKED
+27. route_profile_screenshot: BLOCKED
 
 D) Runtime behavior verification notes (from mobile demo runbook)
-28. discover_state_notes_file:
-29. matches_state_notes_file:
-30. inbox_state_notes_file:
-31. profile_state_notes_file:
+28. discover_state_notes_file: job_site/cf_test_discover_notes.txt
+29. matches_state_notes_file: job_site/cf_test_matches_notes.txt
+30. inbox_state_notes_file: job_site/cf_test_inbox_notes.txt
+31. profile_state_notes_file: job_site/cf_test_profile_notes.txt
 
 E) Handoff text evidence (accepted validation evidence)
-32. foreman_handoff_text_file:
-33. worker_handoff_text_file:
+32. foreman_handoff_text_file: job_site/cloudflare_operator_prompt.txt
+33. worker_handoff_text_file: job_site/cf_test_worker_handoff.txt
 
 F) Final result
-34. cf_test_result: PASS | PATCH
-35. blocking_issue_if_patch:
+34. cf_test_result: PATCH
+35. blocking_issue_if_patch: Required target root /MOBILE-CHASSIE-V1-FROZEN- and deployable module config are not present in this workspace; Cloudflare deploy and live route verification could not be executed.
