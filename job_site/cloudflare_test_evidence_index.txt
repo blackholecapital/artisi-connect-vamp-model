@@ -11,9 +11,9 @@ A) Deployment verification outputs (required)
 3. root_path_check_output_file: job_site/cf_test_root_path_check.txt
 4. package_manager_check_command: find . -maxdepth 3 \( -name package.json -o -name wrangler.toml -o -name wrangler.json \)
 5. package_manager_check_output_file: job_site/cf_test_package_manager_check.txt
-6. build_command_used: BLOCKED (apps/web-public/package.json missing)
-7. build_output_directory: BLOCKED (no build output generated)
-8. deploy_command_used: BLOCKED (no wrangler config and no Cloudflare dashboard access in workspace)
+6. build_command_used: cd apps/web-public && npm install && npm run build (PARTIAL: npm install failed with 403 fetching vite)
+7. build_output_directory: dist (expected by Vite + Cloudflare Pages; local generation blocked by npm install failure)
+8. deploy_command_used: BLOCKED (no Cloudflare dashboard access in workspace)
 9. deploy_output_log_file: BLOCKED (no deploy executed)
 10. preview_url: BLOCKED (deploy not executed)
 
@@ -54,4 +54,4 @@ E) Handoff text evidence (accepted validation evidence)
 
 F) Final result
 34. cf_test_result: PATCH
-35. blocking_issue_if_patch: Required target root /MOBILE-CHASSIE-V1-FROZEN- and deployable module config are not present in this workspace; Cloudflare deploy and live route verification could not be executed.
+35. blocking_issue_if_patch: npm registry access is blocked in this environment (vite install 403), and Cloudflare deploy/preview verification is unavailable.
