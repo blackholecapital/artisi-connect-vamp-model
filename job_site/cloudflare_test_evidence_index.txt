@@ -1,0 +1,57 @@
+VAMPYR-STAGE1-001 | CF-TEST | EVIDENCE INDEX
+
+Instructions
+- Keep all evidence files inside: /MOBILE-CHASSIE-V1-FROZEN-/job_site
+- Record exact relative paths and timestamps.
+- Do not leave placeholders unresolved.
+
+A) Deployment verification outputs (required)
+1. repo_url:
+2. root_path_check_command:
+3. root_path_check_output_file:
+4. package_manager_check_command:
+5. package_manager_check_output_file:
+6. build_command_used:
+7. build_output_directory:
+8. deploy_command_used:
+9. deploy_output_log_file:
+10. preview_url:
+
+B) Cloudflare dashboard / deploy evidence screenshots (required)
+11. cloudflare_dashboard_project_screenshot:
+12. deploy_success_screenshot:
+
+C) Route test evidence (required routes)
+13. route_root_url:
+14. route_root_status_output_file:
+15. route_root_screenshot:
+
+16. route_discover_url:
+17. route_discover_status_output_file:
+18. route_discover_screenshot:
+
+19. route_matches_url:
+20. route_matches_status_output_file:
+21. route_matches_screenshot:
+
+22. route_inbox_url:
+23. route_inbox_status_output_file:
+24. route_inbox_screenshot:
+
+25. route_profile_url:
+26. route_profile_status_output_file:
+27. route_profile_screenshot:
+
+D) Runtime behavior verification notes (from mobile demo runbook)
+28. discover_state_notes_file:
+29. matches_state_notes_file:
+30. inbox_state_notes_file:
+31. profile_state_notes_file:
+
+E) Handoff text evidence (accepted validation evidence)
+32. foreman_handoff_text_file:
+33. worker_handoff_text_file:
+
+F) Final result
+34. cf_test_result: PASS | PATCH
+35. blocking_issue_if_patch:

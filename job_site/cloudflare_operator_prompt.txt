@@ -1,0 +1,69 @@
+VAMPYR-STAGE1-001 | CF-TEST | CLOUDFLARE OPERATOR PROMPT
+
+Objective
+- Deploy the Stage 1 app to Cloudflare Pages from the declared build-sheet root and run public route checks for: /, /discover, /matches, /inbox, /profile.
+
+Declared root path
+- /MOBILE-CHASSIE-V1-FROZEN-
+
+Job-site path for artifacts
+- /MOBILE-CHASSIE-V1-FROZEN-/job_site
+
+Verified deploy command status
+- The current CF-PREP report in this repo mirror does not provide a current-valid deploy command.
+- Treat deploy command as: UNVERIFIED_IN_REPO_MIRROR
+- Use the exact deploy command only after confirming it in the target environment under /MOBILE-CHASSIE-V1-FROZEN-.
+
+Required references to open before deploy
+1) /MOBILE-CHASSIE-V1-FROZEN-/job_site/factory-manual-v1.1.txt
+2) /MOBILE-CHASSIE-V1-FROZEN-/job_site/worker-execution-manual-v1.1.txt
+3) /MOBILE-CHASSIE-V1-FROZEN-/job_site/build-sheet-VAMPYR-STAGE1-001.txt
+4) /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_prep_report.txt
+5) /MOBILE-CHASSIE-V1-FROZEN-/job_site/mobile_demo_runbook.txt
+
+Operator execution steps
+1) Confirm repository and root
+   - Confirm repository URL is correct.
+   - cd /MOBILE-CHASSIE-V1-FROZEN-
+   - Record: pwd output.
+
+2) Confirm deploy prerequisites from root
+   - Confirm actual package manager in use.
+   - Confirm actual build command.
+   - Confirm actual build output directory.
+   - Confirm exact Cloudflare Pages deploy command.
+   - Record each command and terminal output.
+
+3) Build and deploy from declared root
+   - Run the verified install/build/deploy sequence from /MOBILE-CHASSIE-V1-FROZEN-.
+   - Record terminal output showing successful deploy and preview URL.
+
+4) Public route verification on deployed URL
+   - Open deployed preview URL in browser.
+   - Verify and capture evidence for each route:
+     a) /
+     b) /discover
+     c) /matches
+     d) /inbox
+     e) /profile
+   - For each route, capture:
+     - full-page screenshot with URL bar visible
+     - HTTP status (200 expected)
+     - pass/fail note
+
+5) Runtime behavior verification (from runbook)
+   - Confirm non-blank shell render behavior on required demo routes (/discover, /matches, /inbox, /profile).
+   - Record observed state notes for ready/empty/loading/error behavior where available.
+
+6) Evidence recording
+   - Save all screenshots and command outputs under /MOBILE-CHASSIE-V1-FROZEN-/job_site.
+   - Fill out /MOBILE-CHASSIE-V1-FROZEN-/job_site/cloudflare_test_evidence_index.txt with exact filenames/paths.
+
+Pass criteria
+- Deploy executed from /MOBILE-CHASSIE-V1-FROZEN-.
+- Preview URL produced and accessible.
+- All required routes tested and evidence captured.
+- Evidence index completed with paths and verification outputs.
+
+Patch criteria
+- Root path drift, unresolved deploy command, deploy failure, inaccessible preview URL, missing route evidence, or missing evidence index entries.
