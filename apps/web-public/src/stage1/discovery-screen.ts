@@ -26,6 +26,8 @@ export interface DiscoveryDeckState {
   readonly decisions: Readonly<Record<string, DiscoverySwipeDecision>>;
 }
 
+export type DiscoverySurfaceState = "ready" | "loading" | "error";
+
 function toDiscoveryCard(
   candidate: SwipeCandidate,
   profile: MusicianProfile,
@@ -96,7 +98,28 @@ export function applyDiscoverySwipe(
   };
 }
 
-export function renderDiscoveryScreen(state: DiscoveryDeckState): string {
+export function renderDiscoveryScreen(
+  state: DiscoveryDeckState,
+  surfaceState: DiscoverySurfaceState = "ready",
+): string {
+  if (surfaceState === "loading") {
+    return `<main style="min-height: 100vh; max-width: 420px; margin: 0 auto; padding: 16px; color: #ffffff; background: radial-gradient(circle at top, #23254d, #0b0c16 60%); font-family: Inter, system-ui, sans-serif;">
+      <h1 style="margin: 0;">Discover</h1>
+      <section style="margin-top: 12px; border-radius: 18px; border: 1px dashed rgba(255,255,255,0.35); padding: 20px;">
+        <p style="margin: 0; opacity: .85;">Loading discovery cards…</p>
+      </section>
+    </main>`;
+  }
+
+  if (surfaceState === "error") {
+    return `<main style="min-height: 100vh; max-width: 420px; margin: 0 auto; padding: 16px; color: #ffffff; background: radial-gradient(circle at top, #23254d, #0b0c16 60%); font-family: Inter, system-ui, sans-serif;">
+      <h1 style="margin: 0;">Discover</h1>
+      <section style="margin-top: 12px; border-radius: 18px; border: 1px solid rgba(255,105,125,0.45); background: rgba(255,105,125,0.12); padding: 20px;">
+        <p style="margin: 0;">Discovery is temporarily unavailable. Pull to retry demo state.</p>
+      </section>
+    </main>`;
+  }
+
   const deckSlice = state.cards.slice(state.cursor, state.cursor + 3);
 
   const stackMarkup = deckSlice
@@ -144,8 +167,8 @@ export function renderDiscoveryScreen(state: DiscoveryDeckState): string {
     .join("");
 
   const emptyMarkup = `<section style="border-radius: 18px; border: 1px dashed rgba(255,255,255,0.35); padding: 20px; text-align: center;">
-      <h3 style="margin: 0;">Deck complete</h3>
-      <p style="margin: 8px 0 0; color: rgba(255,255,255,0.72);">All seeded musicians were reviewed. Reload fixture state to demo again.</p>
+      <h3 style="margin: 0;">${state.cards.length === 0 ? "No discovery cards" : "Deck complete"}</h3>
+      <p style="margin: 8px 0 0; color: rgba(255,255,255,0.72);">${state.cards.length === 0 ? "Seed fixture returned no candidates. Keep shell visible with this empty state." : "All seeded musicians were reviewed. Reload fixture state to demo again."}</p>
     </section>`;
 
   const passCount = Object.values(state.decisions).filter((v) => v === "pass").length;

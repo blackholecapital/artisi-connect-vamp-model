@@ -1,0 +1,61 @@
+VAMPYR-STAGE1-001 | S5 | MOBILE DEMO RUNBOOK
+
+purpose:
+- Demo a stable mobile flow where discovery, matches, inbox, and profile always render a valid shell (ready/loading/error/empty).
+
+preconditions:
+- Use seeded actor profile: prof_ava.
+- Start with deterministic Stage1 fixtures.
+- Discovery state initialized before route navigation.
+
+navigation_flow_and_expected_states:
+
+1) Route: /discover
+- ready:
+  - swipe card stack renders with pass/like actions.
+  - likes/passes counters visible in header.
+- empty:
+  - after all cards are decided, show "Deck complete" state card.
+  - if fixture has zero cards, show "No discovery cards" state card.
+- loading:
+  - force render with renderDiscoveryScreen(state, "loading").
+  - expect static loading shell text, no blank viewport.
+- error:
+  - force render with renderDiscoveryScreen(state, "error").
+  - expect bordered error panel, shell still visible.
+
+2) Route: /matches
+- ready:
+  - after one or more likes in discover, match rows render.
+- empty:
+  - with zero likes, show "No matches yet" guidance text.
+- loading:
+  - force render with renderMatchesScreen(seed, matches, "loading").
+- error:
+  - force render with renderMatchesScreen(seed, matches, "error").
+
+3) Route: /inbox
+- ready:
+  - seeded or derived thread list rows render.
+- empty:
+  - no available threads shows "No conversation threads yet."
+- loading:
+  - force render with renderInboxThreadList(seed, threads, "loading").
+- error:
+  - force render with renderInboxThreadList(seed, threads, "error").
+
+4) Route: /profile
+- ready:
+  - actor profile card renders.
+  - matched musicians block reflects liked_profile_ids.
+- empty:
+  - no likes shows profile-level matched-musicians empty guidance.
+- loading:
+  - force render with renderProfileScreen(model, "loading").
+- error:
+  - force render with renderProfileScreen(model, "error").
+
+acceptance_check:
+- Every primary demo route (/discover, /matches, /inbox, /profile) renders a non-blank shell in ready/loading/error/empty conditions.
+- Empty states provide deterministic guidance text.
+- Error states are visible and contained, not crashes.
