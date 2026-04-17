@@ -1,0 +1,11 @@
+$ pwd
+/workspace/artisi-connect-vamp-model
+
+$ ls -la apps/web-public
+total 12
+drwxr-xr-x 3 root root 4096 Apr 16 23:41 .
+drwxr-xr-x 6 root root 4096 Apr 16 23:41 ..
+drwxr-xr-x 5 root root 4096 Apr 16 23:41 src
+
+$ test -f apps/web-public/package.json && echo FOUND_PACKAGE_JSON || echo MISSING_PACKAGE_JSON
+MISSING_PACKAGE_JSON
